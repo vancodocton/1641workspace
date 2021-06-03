@@ -1,5 +1,5 @@
-<mxfile host="app.diagrams.net" modified="2021-06-03T16:58:51.853Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.864.37" etag="b_QV1S6qJTkNBmoI13WV" version="14.7.4" type="github" pages="2">
-  <diagram id="AuiD3V_6j4gZnB0-hoVX" name="Page-1">
+<mxfile host="app.diagrams.net" modified="2021-06-03T16:59:25.767Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.864.37" etag="7WNMiAWV8MCYE-IeS59i" version="14.7.4" type="github" pages="2">
+  <diagram id="AuiD3V_6j4gZnB0-hoVX" name="BPMN 1">
     <mxGraphModel dx="1865" dy="1754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
@@ -161,7 +161,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="xVtVoL41mxQFE2b_yvnw" name="Page-2">
+  <diagram id="xVtVoL41mxQFE2b_yvnw" name="BPMN 2">
     <mxGraphModel dx="1038" dy="585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="HKWI3535fIq7lUhVzmZA-0" />
