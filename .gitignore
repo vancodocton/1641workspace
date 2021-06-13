@@ -1,1 +1,4 @@
 Assignment/
+.vscode/
+test.py
+datasets/preprocessed.*
