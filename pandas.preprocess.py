@@ -7,13 +7,13 @@ import pandas
 # %%
 # assign directory
 dir_name = './datasets/'
-file_name = 'udemy.Business.csv'
+file_name = 'onuni.Business.csv'
 
 
 # %%
 # load dataframe
 dir_name = './datasets/'
-file_name = 'udemy.Business.csv'
+file_name = 'onuni.Business.csv'
 
 coursesinfo_df = pandas.read_csv(dir_name + file_name, encoding="utf-8", nrows=None)
 coursesinfo_df.info()
