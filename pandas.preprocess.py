@@ -39,6 +39,6 @@ coursesinfo_df.info()
 
 
 # %%
-coursesinfo_df.to_csv(dir_name + 'preprocessed' + file_name, encoding="utf-8")
+coursesinfo_df.to_csv(dir_name + 'preprocessed.' + file_name, encoding="utf-8")
 
 
