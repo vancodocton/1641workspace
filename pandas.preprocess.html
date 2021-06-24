@@ -14754,9 +14754,13 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># replace null cell in &#39;price_detail__amount&#39; and &#39;discount_price__amount&#39;</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pandas</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span> 
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pandas</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># replace null cell in &#39;price_detail__amount&#39; </span>
+<span class="c1"># and &#39;discount_price__amount&#39;</span>
+<span class="n">isNull</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pandas</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>\
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">isNull</span><span class="p">)</span> 
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span>\
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">isNull</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 
@@ -14853,8 +14857,9 @@ dtype: int64</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># coverrt currency from INR to USD</span>
-<span class="c1"># the conversion factor is 0.013593 referenced from https://www.x-rates.com/average/?from=USD&amp;to=INR&amp;amount=1&amp;year=2020 in 2020 September</span>
-<span class="c1"># for rounding, the chosen conversion factor is 117/8640 (0.013541666666666667)</span>
+<span class="c1"># the average conversion factor is 0.013593 referenced from </span>
+<span class="c1"># https://www.x-rates.com/average/?from=USD&amp;to=INR&amp;amount=1&amp;year=2020 in 2020 Sep</span>
+<span class="c1"># for rounding, the chosen conversion factor is 117/8640 ~ 0.013541(6)</span>
 <span class="n">conversion_factor</span> <span class="o">=</span> <span class="mi">117</span><span class="o">/</span><span class="mi">8640</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">conversion_factor</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">conversion_factor</span>
@@ -14964,7 +14969,9 @@ dtype: int64</pre>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># add calculation to dataframe</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount_percent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount_percent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span>\
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">isNull</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount_percent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;rating_deviation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;rating&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;average_rating&#39;</span><span class="p">]</span>
 <span class="n">df</span><span class="p">[{</span><span class="s1">&#39;rating_deviation&#39;</span><span class="p">,</span> <span class="s1">&#39;discount_percent&#39;</span><span class="p">}]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
