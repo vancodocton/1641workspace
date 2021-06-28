@@ -14572,7 +14572,7 @@ memory usage: 1.9+ MB
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
@@ -14587,52 +14587,11 @@ memory usage: 1.9+ MB
             <span class="s1">&#39;discount_price__price_string&#39;</span><span class="p">,</span>\
             <span class="s1">&#39;avg_rating_recent&#39;</span><span class="p">]</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dropcols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 13608 entries, 0 to 13607
-Data columns (total 13 columns):
- #   Column                        Non-Null Count  Dtype  
----  ------                        --------------  -----  
- 0   id                            13608 non-null  int64  
- 1   title                         13608 non-null  object 
- 2   is_paid                       13608 non-null  bool   
- 3   num_subscribers               13608 non-null  int64  
- 4   avg_rating                    13608 non-null  float64
- 5   rating                        13608 non-null  float64
- 6   num_reviews                   13608 non-null  int64  
- 7   num_published_lectures        13608 non-null  int64  
- 8   num_published_practice_tests  13608 non-null  int64  
- 9   created                       13608 non-null  object 
- 10  published_time                13608 non-null  object 
- 11  discount_price__amount        12205 non-null  float64
- 12  price_detail__amount          13111 non-null  float64
-dtypes: bool(1), float64(4), int64(5), object(3)
-memory usage: 1.3+ MB
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14754,8 +14713,10 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># replace null cell in &#39;price_detail__amount&#39; </span>
-<span class="c1"># and &#39;discount_price__amount&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># drop paid courses having null price</span>
+<span class="n">drrop_row_index</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;is_paid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span> <span class="o">&amp;</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drrop_row_index</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># replace null cell in &#39;price&#39; and &#39;discount&#39; columns</span>
 <span class="n">isNull</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pandas</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>\
     <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">isNull</span><span class="p">)</span> 
@@ -14811,6 +14772,150 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check if &#39;id&#39; column is unique</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_unique</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check if &#39;title&#39; column is unique</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_unique</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 13562 entries, 0 to 13561
+Data columns (total 13 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   id               13562 non-null  int64  
+ 1   title            13562 non-null  object 
+ 2   is_paid          13562 non-null  bool   
+ 3   num_subscribers  13562 non-null  int64  
+ 4   average_rating   13562 non-null  float64
+ 5   rating           13562 non-null  float64
+ 6   num_reviews      13562 non-null  int64  
+ 7   num_lectures     13562 non-null  int64  
+ 8   num_tests        13562 non-null  int64  
+ 9   time_created     13562 non-null  object 
+ 10  time_published   13562 non-null  object 
+ 11  discount         13562 non-null  float64
+ 12  price            13562 non-null  float64
+dtypes: bool(1), float64(4), int64(5), object(3)
+memory usage: 1.3+ MB
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Check the price and discount of courses</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
@@ -14853,12 +14958,12 @@ dtype: int64</pre>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># coverrt currency from INR to USD</span>
 <span class="c1"># the average conversion factor is 0.013593 referenced from </span>
-<span class="c1"># https://www.x-rates.com/average/?from=USD&amp;to=INR&amp;amount=1&amp;year=2020 in 2020 Sep</span>
+<span class="c1"># https://www.x-rates.com/average/?from=INR&amp;to=USD&amp;amount=1&amp;year=2020 in 2020 Sep</span>
 <span class="c1"># for rounding, the chosen conversion factor is 117/8640 ~ 0.013541(6)</span>
 <span class="n">conversion_factor</span> <span class="o">=</span> <span class="mi">117</span><span class="o">/</span><span class="mi">8640</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">conversion_factor</span>
@@ -14913,59 +15018,7 @@ dtype: int64</pre>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;discount&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>  
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[117.          78.          17.33333333 125.66666667  34.66666667
-  65.          91.          30.33333333  26.         138.66666667
-  43.33333333 121.33333333  86.66666667  95.33333333 130.
- 173.33333333 104.          39.          60.66666667  73.66666667
-  21.66666667  82.33333333  47.66666667 112.66666667  99.66666667
-  56.33333333 108.33333333  52.          69.33333333 164.66666667
- 156.         134.33333333 160.33333333 169.         143.
- 151.66666667   0.         147.33333333]
-[ 6.16145833  6.77083333  0.          7.3125      7.39375     7.21770833
-  6.51354167  6.60833333  6.41875     6.25625    39.          6.68958333
- 21.66666667 10.83333333 28.16666667  7.04166667  6.3375      6.865625
-  9.47916667  6.96041667  7.475       8.66666667 43.33333333 13.
- 36.83333333 26.         22.75        8.27395833 32.5         9.75
- 17.33333333 27.08333333 30.33333333 41.16666667 29.25       18.41666667
- 23.83333333 33.58333333 15.16666667 10.29166667 20.58333333 19.5
-  6.5        31.41666667 16.25       34.66666667 24.91666667 37.91666667
- 40.08333333  7.58333333 35.75       14.08333333 11.91666667 42.25      ]
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># add calculation to dataframe</span>
@@ -14989,7 +15042,7 @@ dtype: int64</pre>
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
 
 
@@ -15012,35 +15065,35 @@ dtype: int64</pre>
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>rating_deviation</th>
       <th>discount_percent</th>
+      <th>rating_deviation</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.01855</td>
       <td>5.266204</td>
+      <td>0.01855</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.01059</td>
       <td>5.266204</td>
+      <td>0.01059</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>-0.00165</td>
       <td>5.266204</td>
+      <td>-0.00165</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>-0.00635</td>
       <td>5.266204</td>
+      <td>-0.00635</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.00093</td>
       <td>5.266204</td>
+      <td>0.00093</td>
     </tr>
   </tbody>
 </table>
@@ -15056,7 +15109,7 @@ dtype: int64</pre>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">dir_name</span> <span class="o">+</span> <span class="s1">&#39;preprocessed.&#39;</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
