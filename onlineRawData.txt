@@ -1,3 +1,1 @@
-https://github.com/vancodocton/1641workspace/blob/main/udemy.Business.csv?raw=true
-https://github.com/vancodocton/1641workspace/blob/main/udemy.FinanceAccounting.csv?raw=true
-https://github.com/vancodocton/1641workspace/blob/main/udemy.SoftwareIT.csv?raw=true
+https://raw.githubusercontent.com/vancodocton/1641workspace/published/datasets/onuni.FinanceAccounting.csv
